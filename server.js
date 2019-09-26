@@ -1,9 +1,11 @@
 const express = require("express");
 const ejs = require("ejs");
+const expressLayouts = require('express-ejs-layouts');
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const passport = require("passport");
+var flash = require('connect-flash');
 
 const app = express();
 
@@ -25,6 +27,9 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
+// flash
+app.use(flash());
+
 // express session
 app.use(session({
     secret: 'keyboard cat',
@@ -37,6 +42,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // EJS
+app.use(expressLayouts);
 app.set("view engine", "ejs");
 
 // Routes

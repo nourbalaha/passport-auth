@@ -5,16 +5,17 @@ const passport = require("passport");
 
 // main route
 router.get('/', (req, res) => {
-  res.render('index');
+  res.render('index',{msg:req.flash("info")});
 })
 
 // login route
 router.get('/login', (req, res) => {
-  res.render('login');
+  res.render('login',{msg:req.flash("info")});
 })
 
 router.post('/login', passport.authenticate('local', { successRedirect: '/dashboard',
-                                                    failureRedirect: '/login' }));
+                                                    failureRedirect: '/login' ,
+                                                successFlash: "successfully logged in"}));
 
 // register route
 router.get('/register', (req, res) => {
@@ -29,10 +30,12 @@ router.post('/register', (req, res) => {
             const newUser = new User({username,email,password});
             newUser.save()
             .then(()=>{
-                res.render('dashboard');
+                req.flash("info","successfully registered, please login")
+                res.redirect('/login');
             })
         } else {
-            res.send("email exists")
+            req.flash("info","email is already exist");
+            res.redirect("/")
         }
     })
     .catch();
@@ -41,12 +44,13 @@ router.post('/register', (req, res) => {
 
 // dashboard route
 router.get('/dashboard', require("./auth").ensureAuthenticated, (req, res) => {
-  res.render('dashboard',{username: req.user.username});
+  res.render('dashboard',{username: req.user.username , msg:req.flash("info"), suc: req.flash("success")});
 })
 
 // logout route
 router.get('/logout' ,(req, res) => {
     req.logout();
-  res.redirect('/login');
+    req.flash("info","successfully logged out");
+    res.redirect('/login');
 })
 module.exports = router

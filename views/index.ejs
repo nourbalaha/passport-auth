@@ -1,3 +1,21 @@
-<p>Please login or sign up:</p>
-<a href="/login">login</a>
-<a href="/register">register</a>
+<div class="container">
+    <% if(msg.length >0) { %>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <%= msg %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <% }%>
+
+
+    <div class="card w-50 m-auto">
+        <div class="card-header">
+            Please login or sign up:
+        </div>
+        <div class="card-body">
+            <a href="/login" class="btn btn-primary btn-block">login</a>
+            <a href="/register" class="btn btn-primary btn-block">register</a>
+        </div>
+    </div>
+</div>
