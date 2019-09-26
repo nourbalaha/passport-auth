@@ -1,8 +1,9 @@
 module.exports = {
     ensureAuthenticated(req,res,next){
-        if(req.isAuthenticated()){
-            next();
+        if(!req.isAuthenticated()){
+            req.flash("info","user not authorized")
+            res.redirect("/login")
         }
-        res.send("not authinticated")
+        next();
     }
 }
