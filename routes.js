@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const User = require("./model");
 const passport = require("passport");
+const bcrypt = require("bcrypt");
 
 // main route
 router.get('/', (req, res) => {
@@ -10,12 +11,13 @@ router.get('/', (req, res) => {
 
 // login route
 router.get('/login', (req, res) => {
-  res.render('login',{msg:req.flash("info")});
+  res.render('login',{msg:req.flash("info"),err:req.flash("error")});
 })
 
 router.post('/login', passport.authenticate('local', { successRedirect: '/dashboard',
                                                     failureRedirect: '/login' ,
-                                                successFlash: "successfully logged in"}));
+                                                successFlash: true,
+                                            failureFlash:true}));
 
 // register route
 router.get('/register', (req, res) => {
@@ -23,10 +25,11 @@ router.get('/register', (req, res) => {
 })
 
 router.post('/register', (req, res) => {
-    const {username, email, password } = req.body;
-    User.findOne({email})
+    User.findOne({email: req.body.email})
     .then(user=>{
         if(!user){
+            const {username, email } = req.body;
+            const password = bcrypt.hashSync(req.body.password,12);
             const newUser = new User({username,email,password});
             newUser.save()
             .then(()=>{
@@ -38,7 +41,7 @@ router.post('/register', (req, res) => {
             res.redirect("/")
         }
     })
-    .catch();
+    .catch(err=>console.log(err));
     
 })
 

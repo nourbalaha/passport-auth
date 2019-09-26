@@ -1,13 +1,23 @@
-<form action="/register" method="post">
-    <label for="username">Name:</label>
-    <input type="text" name="username" id="username">
-    <br>
-    <label for="email">Email:</label>
-    <input type="email" name="email" id="email">
-    <br>
-    <label for="password">Password:</label>
-    <input type="password" name="password" id="password">
-    <br>
-    <button type="submit">Register</button>
-    <p>if you have an account please <a href="/login">login</a></p>
-</form>
+<div class="container">
+          <div class="card w-50 mt-5 mx-auto text-center">
+              <div class="card-header">
+                  Please Register:
+              </div>
+              <div class="card-body">
+                    <form action="/register" method="post">
+                        <label for="username">Name:</label>
+                        <input type="text" name="username" id="username" class="form-control">
+                        <br>
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" id="email" class="form-control">
+                        <br>
+                        <label for="password">Password:</label>
+                        <input type="password" name="password" id="password" class="form-control">
+                        <br>
+                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        <br>
+                        <p>if you have an account please <a href="/login">login</a></p>
+                    </form>
+          </div>
+      </div>
+  </div>
